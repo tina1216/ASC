@@ -1,0 +1,76 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  email String @unique
+  password String
+  name String?
+  role Role @default(USER)
+  applications Application[]
+}
+
+model Application {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  scholarship Scholarship @relation(fields: [scholarshipId], references: [id])
+  scholarshipId Int
+  application_status ApplicationStatus @default(PENDING)
+  user User @relation(fields: [userId], references: [id])
+  userId Int
+}
+
+model Scholarship {
+  id Int @id @default(autoincrement())
+  title String
+  description String
+  award Float
+  deadline DateTime
+  scholarship_status ScholarshipStatus @default(OPEN)
+  slug String
+  categories Category[]
+  benefactor Benefactor @relation(fields: [benefactorId], references: [id])
+  benefactorId Int
+  application Application[]
+}
+
+model Benefactor {
+  id Int @id @default(autoincrement())
+  name String
+  description String
+  logo String?
+  email String
+  scholarships Scholarship[]
+}
+
+model Category {
+  id Int @id @default(autoincrement())
+  name String
+  scholarships Scholarship[]
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum ScholarshipStatus {
+  OPEN
+  CLOSED
+}
+
+enum ApplicationStatus {
+  ACCEPTED
+  PENDING
+  REJECTED
+}
