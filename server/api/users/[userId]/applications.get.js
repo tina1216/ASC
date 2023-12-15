@@ -1,20 +1,22 @@
-import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
-export default defineEventHandler(async (event) => {
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
+
+export default defineEventHandler(async (e) => {
   const applicationsByUser = await prisma.application.findMany({
     where: {
       user: {
-        id: parseInt(event.context.params.userId),
+        id: parseInt(e.context.params.userId),
       },
     },
     include: {
-      scholarship: {
+      event: {
         include: {
-          benefactor: true,
+          organiser: true,
         },
       },
     },
-  })
+  });
 
-  return applicationsByUser
-})
+  return applicationsByUser;
+});

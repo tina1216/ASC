@@ -10,15 +10,15 @@
       />
     </div>
 
-    <h3 class="font-medium text-gray-900">{{ scholarship.title }}</h3>
+    <h3 class="font-medium text-slate-900">{{ event.title }}</h3>
   </div>
 </template>
 
 <style scoped></style>
 
 <script lang="ts" setup>
-const randomNumber = Math.floor(Math.random() * 1000)
+const randomNumber = Math.floor(Math.random() * 1000);
 const props = defineProps({
-  scholarship: Object,
-})
+  event: Object,
+});
 </script>

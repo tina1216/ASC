@@ -1,10 +1,8 @@
 <template>
-  <div
-    class="p-12 bg-gray-100 w-full h-full min-h-screen flex flex-col items-center"
-  >
+  <div class="p-12 bg-blue-50 w-full h-full min-h-screen flex flex-col items-center">
     <div class="mb-12 flex items-center">
-      <UIcon class="p-6" name="i-heroicons-academic-cap-solid" />
-      <h1 class="text-2xl font-bold uppercase ml-2">Eduscholar</h1>
+      <UIcon class="p-6" name="i-heroicons-globe-alt-20-solid" />
+      <h1 class="text-2xl font-bold uppercase ml-2">WebinarWave</h1>
     </div>
 
     <div class="flex flex-row justify-center flex-grow">
@@ -21,7 +19,7 @@
           <NuxtLink href="/">
             <div class="flex items-center">
               <UIcon class="m-2" name="i-heroicons-bookmark" />
-              <h3>Scholarships</h3>
+              <h3>Events</h3>
             </div>
           </NuxtLink>
           <NuxtLink to="/applications">
@@ -56,12 +54,12 @@
 </template>
 
 <script setup lang="ts">
-const { status, signOut } = useAuth()
-const loggedIn = computed(() => status.value === 'authenticated')
+const { status, signOut } = useAuth();
+const loggedIn = computed(() => status.value === "authenticated");
 
-const headers = useRequestHeaders(['cookie']) as HeadersInit
-const { data: token } = await useFetch('/api/auth/token', { headers })
-const isAdmin = computed(() => token.value?.role === 'ADMIN')
+const headers = useRequestHeaders(["cookie"]) as HeadersInit;
+const { data: token } = await useFetch("/api/auth/token", { headers });
+const isAdmin = computed(() => token.value?.role === "ADMIN");
 </script>
 
 <style lang="scss" scoped></style>

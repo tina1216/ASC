@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = env("DATABASE_URL")
 }
 
 model User {
@@ -23,40 +23,41 @@ model Application {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  scholarship Scholarship @relation(fields: [scholarshipId], references: [id])
-  scholarshipId Int
+  event Event @relation(fields: [eventId], references: [id])
+  eventId Int
   application_status ApplicationStatus @default(PENDING)
   user User @relation(fields: [userId], references: [id])
   userId Int
 }
 
-model Scholarship {
+// scholarship -> event
+model Event {
   id Int @id @default(autoincrement())
   title String
   description String
-  award Float
   deadline DateTime
-  scholarship_status ScholarshipStatus @default(OPEN)
+  event_status EventStatus @default(OPEN)
   slug String
   categories Category[]
-  benefactor Benefactor @relation(fields: [benefactorId], references: [id])
-  benefactorId Int
-  application Application[]
+  organiser Organiser @relation(fields: [organiserId], references: [id])
+  organiserId Int
+  applications Application[]
 }
 
-model Benefactor {
+// benefactor -> organiser
+model Organiser {
   id Int @id @default(autoincrement())
   name String
   description String
   logo String?
   email String
-  scholarships Scholarship[]
+  events Event[]
 }
 
 model Category {
   id Int @id @default(autoincrement())
   name String
-  scholarships Scholarship[]
+  events Event[]
 }
 
 enum Role {
@@ -64,7 +65,7 @@ enum Role {
   ADMIN
 }
 
-enum ScholarshipStatus {
+enum EventStatus {
   OPEN
   CLOSED
 }

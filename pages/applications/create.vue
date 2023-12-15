@@ -1,8 +1,8 @@
 <template>
   <div class="w-96 mx-auto">
-    <h1 class="text-2xl font-bold mb-4">Create Scholarship</h1>
+    <h1 class="text-2xl font-bold mb-4">Create Event</h1>
 
-    <form @submit.prevent="handlePostScholarship" class="space-y-4">
+    <form @submit.prevent="handlePostEvent" class="space-y-4">
       <div class="flex flex-col">
         <label for="title" class="text-sm font-medium mb-1">Title:</label>
         <input
@@ -13,9 +13,7 @@
         />
       </div>
       <div class="flex flex-col">
-        <label for="description" class="text-sm font-medium mb-1">
-          Description:
-        </label>
+        <label for="description" class="text-sm font-medium mb-1"> Description: </label>
         <textarea
           v-model="description"
           required
@@ -23,18 +21,7 @@
         ></textarea>
       </div>
       <div class="flex flex-col">
-        <label for="award" class="text-sm font-medium mb-1">Award:</label>
-        <input
-          type="number"
-          v-model="award"
-          required
-          class="border-gray-300 border rounded-md py-2 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-        />
-      </div>
-      <div class="flex flex-col">
-        <label for="deadline" class="text-sm font-medium mb-1">
-          Deadline:
-        </label>
+        <label for="deadline" class="text-sm font-medium mb-1"> Deadline: </label>
         <input
           type="date"
           v-model="deadline"
@@ -43,9 +30,7 @@
         />
       </div>
       <div class="flex flex-col">
-        <label for="category" class="text-sm font-medium mb-1">
-          Category:
-        </label>
+        <label for="category" class="text-sm font-medium mb-1"> Category: </label>
         <USelectMenu
           v-model="selectedCategories"
           :options="categories"
@@ -61,17 +46,11 @@
         </USelectMenu>
       </div>
       <div class="flex flex-col">
-        <label for="benefactor" class="text-sm font-medium mb-1">
-          Benefactor:
-        </label>
-        <USelectMenu
-          v-model="benefactor"
-          :options="benefactors"
-          option-attribute="name"
-        >
+        <label for="organiser" class="text-sm font-medium mb-1"> Organiser: </label>
+        <USelectMenu v-model="organiser" :options="organisers" option-attribute="name">
           <template #label>
-            <span v-if="benefactor.name">{{ benefactor.name }}</span>
-            <span v-else>Select a benefactor</span>
+            <span v-if="organiser.name">{{ organiser.name }}</span>
+            <span v-else>Select a organiser</span>
           </template>
         </USelectMenu>
       </div>
@@ -90,7 +69,7 @@
           type="submit"
           class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         >
-          Create Scholarship
+          Create Event
         </button>
       </div>
     </form>
@@ -98,45 +77,43 @@
 </template>
 
 <script setup lang="ts">
-const router = useRouter()
+const router = useRouter();
 
-const title = ref('')
-const description = ref('')
-const award = ref(0)
-const deadline = ref('')
-const selectedCategories = ref([])
-const benefactor = ref('')
+const title = ref("");
+const description = ref("");
+const deadline = ref("");
+const selectedCategories = ref([]);
+const organiser = ref("");
 
-const categories = await useFetch('/api/categories/').then((res) => res.data)
-const benefactors = await useFetch('/api/benefactors/').then((res) => res.data)
+const categories = await useFetch("/api/categories/").then((res) => res.data);
+const organisers = await useFetch("/api/organisers/").then((res) => res.data);
 
 const slug = computed(() => {
-  const titleSlug = title.value.toLowerCase().replace(/\s+/g, '-')
-  return titleSlug
-})
+  const titleSlug = title.value.toLowerCase().replace(/\s+/g, "-");
+  return titleSlug;
+});
 
-const handlePostScholarship = async () => {
+const handlePostEvent = async () => {
   const body = {
     title: title.value,
     description: description.value,
-    award: award.value,
     deadline: deadline.value,
     slug: slug.value,
     categoryIds: selectedCategories,
-    benefactorId: benefactor.value.id,
-  }
+    organiserId: organiser.value.id,
+  };
 
   try {
-    await useFetch('/api/scholarships/', {
-      method: 'post',
+    await useFetch("/api/events/", {
+      method: "post",
       body,
     }).then(() => {
-      router.push('/')
-    })
+      router.push("/");
+    });
   } catch (err) {
-    console.error('Error creating scholarship:', err)
+    console.error("Error creating event:", err);
   }
-}
+};
 </script>
 
 <style scoped>

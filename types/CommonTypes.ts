@@ -1,15 +1,8 @@
-import {
-  User,
-  Application,
-  Scholarship,
-  Benefactor,
-  Role,
-  Status,
-} from '@prisma/client'
+import { User, Application, Event, Organiser, Role, Status } from "@prisma/client";
 
-type Scholarship = Scholarship & {
-  path: string
-}
+type Event = Event & {
+  path: string;
+};
 
 // Export the types and enums
-export { User, Application, Scholarship, Benefactor, Category, Role, Status }
+export { User, Application, Event, Organiser, Category, Role, Status };

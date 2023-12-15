@@ -1,9 +1,10 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
-export default defineEventHandler(async (event) => {
-  const { id, application_status } = await readBody(event)
+export default defineEventHandler(async (e) => {
+  const { id, application_status } = await readBody(e);
+
   const application = await prisma.application.update({
     where: {
       id,
@@ -11,7 +12,7 @@ export default defineEventHandler(async (event) => {
     data: {
       application_status: application_status,
     },
-  })
+  });
 
-  return application
-})
+  return application;
+});

@@ -3,12 +3,13 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export default defineEventHandler(async (e) => {
-  const { userId } = e.context.params;
+  const { eventId } = e.context.params;
 
-  const user = await prisma.user.findUnique({
+  const event = await prisma.event.findUnique({
     where: {
-      id: parseInt(userId),
+      id: parseInt(eventId),
     },
   });
-  return user;
+
+  return event;
 });

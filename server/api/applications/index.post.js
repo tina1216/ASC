@@ -1,9 +1,10 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
-export default defineEventHandler(async (event) => {
-  const { userId, scholarshipId } = await readBody(event)
+export default defineEventHandler(async (e) => {
+  const { userId, eventId } = await readBody(e);
+
   const application = await prisma.application.create({
     data: {
       user: {
@@ -11,13 +12,13 @@ export default defineEventHandler(async (event) => {
           id: userId,
         },
       },
-      scholarship: {
+      event: {
         connect: {
-          id: scholarshipId,
+          id: eventId,
         },
       },
     },
-  })
+  });
 
-  return application
-})
+  return application;
+});
