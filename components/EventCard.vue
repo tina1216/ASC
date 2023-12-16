@@ -10,7 +10,10 @@
       />
     </div>
 
-    <h3 class="font-medium text-slate-900">{{ event.title }}</h3>
+    <!-- <h3 class="font-medium text-slate-900">{{ event.title }}</h3> -->
+    <h3 class="font-medium text-slate-900">
+      <div v-html="event.title"></div>
+    </h3>
   </div>
 </template>
 
