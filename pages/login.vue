@@ -87,6 +87,14 @@
         </div>
       </div>
     </div>
+
+    <div
+      v-if="errorMessage"
+      class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800"
+      role="alert"
+    >
+      {{ errorMessage }}
+    </div>
   </section>
 </template>
 
@@ -102,15 +110,24 @@ const { signIn, status } = useAuth();
 
 const email = ref(null);
 const password = ref(null);
+const errorMessage = ref("");
 
 const handleFormSubmit = async () => {
   try {
+    errorMessage.value = "";
     await signIn("credentials", {
       email: email.value,
       password: password.value,
     });
   } catch (err) {
     console.log("Error in handleFormSubmit", err);
+
+    if (err.response && err.response.data) {
+      // Log detailed error response if available
+      console.error("Error response:", err.response.data);
+    }
+
+    errorMessage.value = err.message || "An error occurred during login";
   }
 };
 </script>
