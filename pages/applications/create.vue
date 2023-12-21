@@ -77,20 +77,6 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({
-  middleware: [
-    async function (to, from) {
-      const headers = useRequestHeaders(["cookie"]) as HeadersInit;
-      const { data: token } = await useFetch("/api/auth/token", { headers });
-      const isAdmin = computed(() => token.value?.role === "ADMIN");
-
-      if (!isAdmin.value) {
-        window.location.href = "/";
-      }
-    },
-  ],
-});
-
 const router = useRouter();
 
 const title = ref("");
